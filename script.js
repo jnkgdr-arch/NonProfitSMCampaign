@@ -16,12 +16,19 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 reveals.forEach((item) => observer.observe(item));
 
+const tabs = document.querySelectorAll('.asset-tab');
+const calendarImage = document.querySelector('#calendarImage');
+tabs.forEach((tab) => tab.addEventListener('click', () => {
+  tabs.forEach((item) => item.classList.remove('active'));
+  tab.classList.add('active');
+  calendarImage.src = tab.dataset.img;
+  calendarImage.alt = `Mission of Luv ${tab.textContent.toLowerCase()}`;
+}));
+
 const dialog = document.querySelector('#imageDialog');
-document.querySelectorAll('[data-viewer]').forEach((button) => {
-  button.addEventListener('click', () => {
-    document.querySelector('#dialogImage').src = button.dataset.viewer;
-    dialog.showModal();
-  });
+document.querySelector('#calendarOpen').addEventListener('click', () => {
+  document.querySelector('#dialogImage').src = calendarImage.src;
+  dialog.showModal();
 });
 document.querySelector('#dialogClose').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
